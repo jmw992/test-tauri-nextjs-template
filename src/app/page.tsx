@@ -6,10 +6,20 @@ import { useCallback, useState } from "react";
 
 export default function Home() {
   const [greeted, setGreeted] = useState<string | null>(null);
+  const [gudgitzed, setGudgitzed] = useState<string | null>(null);
   const greet = useCallback((): void => {
     invoke<string>("greet")
       .then((s) => {
         setGreeted(s);
+      })
+      .catch((err: unknown) => {
+        console.error(err);
+      });
+  }, []);
+  const gudgitz = useCallback((): void => {
+    invoke<string>("gudgitz")
+      .then((s) => {
+        setGudgitzed(s);
       })
       .catch((err: unknown) => {
         console.error(err);
@@ -39,12 +49,16 @@ export default function Home() {
         </ol>
 
         <div className="flex flex-col gap-2 items-start">
-          <RoundedButton
-            onClick={greet}
-            title="Call &quot;greet&quot; from Rust"
-          />
+          <RoundedButton onClick={greet} title='Call "greet" from Rust' />
           <p className="break-words w-md">
             {greeted ?? "Click the button to call the Rust function"}
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-2 items-start">
+          <RoundedButton onClick={gudgitz} title='Call "gudgitz" from Rust' />
+          <p className="break-words w-md">
+            {gudgitzed ?? "Click the button to call the Rust function"}
           </p>
         </div>
       </main>
