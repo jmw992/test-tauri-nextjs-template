@@ -8,10 +8,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check src/ && next lint",
+    "lint:fix": "biome lint --write ./src && next lint --fix",
     "tauri": "tauri"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.4",
+    "@heroicons/react": "^2.2.0",
     "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-dialog": "~2.2.2",
+    "@tauri-apps/plugin-fs": "~2.3.0",
     "@tauri-apps/plugin-opener": "^2.2.7",
     "next": "^15.3.2",
     "react": "^19.1.0",
