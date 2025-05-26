@@ -1,5 +1,6 @@
 "use client";
 
+import { HISTORY, RECORD, SETTINGS } from "@/constants";
 import {
   Disclosure,
   DisclosureButton,
@@ -8,11 +9,10 @@ import {
 import {
   Bars3Icon,
   BellIcon,
-  XMarkIcon,
   Cog6ToothIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
-import { HISTORY, SETTINGS, RECORD } from "@/constants";
 import { useRouter } from "next/navigation";
 
 function classNames(...classes: string[]) {
@@ -69,7 +69,7 @@ export default function AppLayout({
                           item.current
                             ? "bg-gray-900 text-white"
                             : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "rounded-md px-3 py-2 text-sm font-medium"
+                          "rounded-md px-3 py-2 text-sm font-medium",
                         )}
                       >
                         {item.name}
@@ -94,9 +94,11 @@ export default function AppLayout({
                       "relative rounded-full bg-gray-800 p-1 text-gray-400 ",
                       settings.current
                         ? "text-white ring-white ring-offset-2 ring-offset-gray-800 outline-hidden"
-                        : "hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
+                        : "hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden",
                     )}
-                    onClick={() => { router.push(settings.href); }}
+                    onClick={() => {
+                      router.push(settings.href);
+                    }}
                   >
                     <span className="absolute -inset-1.5" />
                     <Cog6ToothIcon
@@ -137,7 +139,7 @@ export default function AppLayout({
                     item.current
                       ? "bg-gray-900 text-white"
                       : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                    "block rounded-md px-3 py-2 text-base font-medium"
+                    "block rounded-md px-3 py-2 text-base font-medium",
                   )}
                 >
                   {item.name}
@@ -151,7 +153,7 @@ export default function AppLayout({
                   settings.current
                     ? "bg-gray-900 text-white"
                     : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                  "block rounded-md px-3 py-2 text-base font-medium"
+                  "block rounded-md px-3 py-2 text-base font-medium",
                 )}
               >
                 {SETTINGS}

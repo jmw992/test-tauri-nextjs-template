@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check src/ && next lint",
-    "lint:fix": "biome lint --write ./src && next lint --fix",
+    "lint:fix": "biome check --fix src/ && next lint --fix",
+    "lint:fix:unsafe": "biome check --fix --unsafe ./src && next lint --fix",
     "tauri": "tauri"
   },
   "dependencies": {

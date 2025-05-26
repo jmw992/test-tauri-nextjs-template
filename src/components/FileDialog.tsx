@@ -8,22 +8,19 @@ interface FileDialogProps {
 }
 
 const onClickAsync = async () => {
-  console.log('jmw onclick start..');
+  console.log("jmw onclick start..");
   // Open a dialog
   const file = await open({
     multiple: false,
     directory: false,
   });
-  console.log('file', file)
+  console.log("file", file);
 };
 
-const onClick = () =>{
+const onClick = () => {
   void onClickAsync();
-}
+};
 
 export const FileDialog: React.FC<FileDialogProps> = ({ title }) => (
-  <RoundedButton
-    onClick={onClick}
-    title={title}
-  />
+  <RoundedButton onClick={onClick} title={title} />
 );
