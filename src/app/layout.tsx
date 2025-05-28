@@ -19,9 +19,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className="h-full bg-gray-100" lang="en">
+    <html className="dark h-full bg-gray-100" lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+
       >
         <AppLayout>{children}</AppLayout>
       </body>
