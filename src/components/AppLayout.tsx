@@ -8,12 +8,14 @@ import {
 } from "@headlessui/react";
 import {
   Bars3Icon,
-  BellIcon,
   Cog6ToothIcon,
   XMarkIcon,
+  PlayIcon,
+  StopIcon,
 } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -26,6 +28,13 @@ export default function AppLayout({
 }>) {
   const pathname = usePathname();
   const router = useRouter();
+  const [isRecording, setIsRecording] = useState(
+    false,
+  );
+
+  useEffect(() => {
+    setIsRecording(window && window?.localStorage?.getItem("isRecording") === "true");
+  }, []);
   const navigation = [
     {
       name: HISTORY,
@@ -42,6 +51,13 @@ export default function AppLayout({
     name: SETTINGS,
     href: `/${SETTINGS.toLowerCase()}`,
     current: pathname.endsWith(SETTINGS.toLowerCase()),
+  };
+
+  const recordingHandler = () => {
+    setIsRecording((current) => {
+      window.localStorage.setItem("isRecording", `${current}`);
+      return !current;
+    });
   };
 
   return (
@@ -83,10 +99,11 @@ export default function AppLayout({
                   <button
                     type="button"
                     className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
+                    onClick={recordingHandler}
                   >
                     <span className="absolute -inset-1.5" />
                     <span className="sr-only">View notifications</span>
-                    <BellIcon aria-hidden="true" className="size-6" />
+                    {isRecording ? <StopIcon className="size-6 text-red-500" /> : <PlayIcon stroke="green" className="size-6" /> }
                   </button>
                   <button
                     type="button"
