@@ -28,12 +28,12 @@ export default function AppLayout({
 }>) {
   const pathname = usePathname();
   const router = useRouter();
-  const [isRecording, setIsRecording] = useState(
-    false,
-  );
+  const [isRecording, setIsRecording] = useState(false);
 
   useEffect(() => {
-    setIsRecording(window && window?.localStorage?.getItem("isRecording") === "true");
+    setIsRecording(
+      window && window?.localStorage?.getItem("isRecording") === "true",
+    );
   }, []);
   const navigation = [
     {
@@ -103,7 +103,11 @@ export default function AppLayout({
                   >
                     <span className="absolute -inset-1.5" />
                     <span className="sr-only">View notifications</span>
-                    {isRecording ? <StopIcon className="size-6 text-red-500" /> : <PlayIcon stroke="green" className="size-6" /> }
+                    {isRecording ? (
+                      <StopIcon className="size-6 text-red-500" />
+                    ) : (
+                      <PlayIcon stroke="green" className="size-6" />
+                    )}
                   </button>
                   <button
                     type="button"
@@ -184,6 +188,7 @@ export default function AppLayout({
             {children}
           </div>
         </main>
+        <footer />
       </div>
     </>
   );
