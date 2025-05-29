@@ -12,7 +12,7 @@ const onClickAsync = async () => {
   // Open a dialog
   const file = await open({
     multiple: false,
-    directory: false,
+    directory: true,
   });
   console.log("file", file);
 };

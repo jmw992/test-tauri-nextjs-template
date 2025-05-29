@@ -1,11 +1,7 @@
 "use client";
 
 import { HISTORY, RECORD, SETTINGS } from "@/constants";
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-} from "@headlessui/react";
+import { Disclosure, DisclosureButton } from "@headlessui/react";
 import {
   Bars3Icon,
   Cog6ToothIcon,
@@ -13,51 +9,27 @@ import {
   PlayIcon,
   StopIcon,
 } from "@heroicons/react/24/outline";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useZustandStore } from "@/lib/useZustandStore";
+import type { Page } from "@/types";
 
-function classNames(...classes: string[]) {
+const classNames = (...classes: string[]) => {
   return classes.filter(Boolean).join(" ");
-}
+};
 
 export default function AppLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
-  const router = useRouter();
-  const [isRecording, setIsRecording] = useState(false);
+  const page = useZustandStore((state) => state.page);
+  const setPage = useZustandStore((state) => state.setPage);
+  const isRecording = useZustandStore((state) => state.isRecording);
+  const setIsRecording = useZustandStore((state) => state.setIsRecording);
 
-  useEffect(() => {
-    setIsRecording(
-      window && window?.localStorage?.getItem("isRecording") === "true",
-    );
-  }, []);
-  const navigation = [
-    {
-      name: HISTORY,
-      href: `/${HISTORY.toLowerCase()}`,
-      current: pathname.endsWith(HISTORY.toLowerCase()),
-    },
-    {
-      name: RECORD,
-      href: `/${RECORD.toLowerCase()}`,
-      current: pathname.endsWith(RECORD.toLowerCase()),
-    },
-  ];
-  const settings = {
-    name: SETTINGS,
-    href: `/${SETTINGS.toLowerCase()}`,
-    current: pathname.endsWith(SETTINGS.toLowerCase()),
-  };
+  const navigation: Page[] = [HISTORY, RECORD];
 
   const recordingHandler = () => {
-    setIsRecording((current) => {
-      window.localStorage.setItem("isRecording", `${current}`);
-      return !current;
-    });
+    setIsRecording(!isRecording);
   };
 
   return (
@@ -76,20 +48,23 @@ export default function AppLayout({
                 </div>
                 <div className="hidden md:block">
                   <div className="ml-10 flex items-baseline space-x-4">
-                    {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        aria-current={item.current ? "page" : undefined}
+                    {navigation.map((name) => (
+                      <button
+                        key={name}
+                        aria-current={name === page ? "page" : undefined}
+                        type="button"
+                        onClick={() => {
+                          setPage(name);
+                        }}
                         className={classNames(
-                          item.current
+                          name === page
                             ? "bg-gray-900 text-white"
                             : "text-gray-300 hover:bg-gray-700 hover:text-white",
                           "rounded-md px-3 py-2 text-sm font-medium",
                         )}
                       >
-                        {item.name}
-                      </a>
+                        {name}
+                      </button>
                     ))}
                   </div>
                 </div>
@@ -113,17 +88,17 @@ export default function AppLayout({
                     type="button"
                     className={classNames(
                       "relative rounded-full bg-gray-800 p-1 text-gray-400 ",
-                      settings.current
+                      page === SETTINGS
                         ? "text-white ring-white ring-offset-2 ring-offset-gray-800 outline-hidden"
                         : "hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden",
                     )}
                     onClick={() => {
-                      router.push(settings.href);
+                      setPage(SETTINGS);
                     }}
                   >
                     <span className="absolute -inset-1.5" />
                     <Cog6ToothIcon
-                      aria-current={settings.current ? "page" : undefined}
+                      aria-current={page === SETTINGS ? "page" : undefined}
                       aria-label={SETTINGS}
                       className="size-6"
                     />
@@ -147,40 +122,6 @@ export default function AppLayout({
               </div>
             </div>
           </div>
-
-          <DisclosurePanel className="md:hidden">
-            <div className="space-y-1 px-2 pt-2 pb-3 sm:px-3">
-              {navigation.map((item) => (
-                <DisclosureButton
-                  key={item.name}
-                  as="a"
-                  href={item.href}
-                  aria-current={item.current ? "page" : undefined}
-                  className={classNames(
-                    item.current
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                    "block rounded-md px-3 py-2 text-base font-medium",
-                  )}
-                >
-                  {item.name}
-                </DisclosureButton>
-              ))}
-              <DisclosureButton
-                as="a"
-                href={"#"}
-                aria-current={settings.current ? "page" : undefined}
-                className={classNames(
-                  settings.current
-                    ? "bg-gray-900 text-white"
-                    : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                  "block rounded-md px-3 py-2 text-base font-medium",
-                )}
-              >
-                {SETTINGS}
-              </DisclosureButton>
-            </div>
-          </DisclosurePanel>
         </Disclosure>
 
         <main>
