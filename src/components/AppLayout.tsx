@@ -1,16 +1,16 @@
 "use client";
 
 import { HISTORY, RECORD, SETTINGS } from "@/constants";
+import { useZustandStore } from "@/lib/useZustandStore";
+import type { Page } from "@/types";
 import { Disclosure, DisclosureButton } from "@headlessui/react";
 import {
   Bars3Icon,
   Cog6ToothIcon,
-  XMarkIcon,
   PlayIcon,
   StopIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { useZustandStore } from "@/lib/useZustandStore";
-import type { Page } from "@/types";
 
 const classNames = (...classes: string[]) => {
   return classes.filter(Boolean).join(" ");

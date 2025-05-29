@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { open } from "@tauri-apps/plugin-dialog";
-import { RoundedButton } from "./RoundedButton";
 import { Input } from "@/components/ui/input";
+import { open } from "@tauri-apps/plugin-dialog";
+import { useState } from "react";
+import { RoundedButton } from "./RoundedButton";
 
-type FolderInputProps = {
+interface FolderInputProps {
   title: string;
   inputPlaceholder?: string;
   onChange: (filePath: string) => void;
-};
+}
 
 export const FolderInput: React.FC<FolderInputProps> = ({
   title,
@@ -47,7 +47,7 @@ export const FolderInput: React.FC<FolderInputProps> = ({
       <Input
         type="text"
         value={filePath}
-        placeholder={inputPlaceholder || "Selected file path will appear here"}
+        placeholder={inputPlaceholder ?? "Selected file path will appear here"}
         style={{ width: "100%", minWidth: 0 }}
         onChange={(e) => {
           setFilePath(e.target.value);

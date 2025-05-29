@@ -1,17 +1,17 @@
 "use client";
-import Home from "@/components/pages/Home";
 import History from "@/components/pages/History";
-import Settings from "@/components/pages/Settings";
+import Home from "@/components/pages/Home";
 import Record from "@/components/pages/Record";
+import Settings from "@/components/pages/Settings";
 import { HISTORY, HOME, RECORD, SETTINGS } from "@/constants";
-import { useZustandStore } from "@/lib/useZustandStore";
-import type { Page } from "@/types";
-import type React from "react";
-import { use, useEffect } from "react";
 import {
   getGameDirectoryStore,
   getScreenshotsDirectoryStore,
 } from "@/lib/persistStorage";
+import { useZustandStore } from "@/lib/useZustandStore";
+import type { Page } from "@/types";
+import type React from "react";
+import { use, useEffect } from "react";
 
 const PageMap: Record<Page, React.FC> = {
   [HOME]: Home,
