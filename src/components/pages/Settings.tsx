@@ -22,9 +22,7 @@ export default function Settings() {
       <p>App Directory for Total War Warhammer 3</p>
       <FolderInput
         title={"Select"}
-        inputPlaceholder={
-          gameDirectory || "C://{MyUser}/AppData/Total War Warhammer 3"
-        }
+        initialValue={gameDirectory}
         onChange={(value: string) => {
           setGameDirectory(value);
           setGameDirectoryStore(value);
@@ -34,10 +32,7 @@ export default function Settings() {
       <p>App Directory for Screenshots</p>
       <FolderInput
         title={"Select"}
-        inputPlaceholder={
-          screenshotDirectory ||
-          "C://{MyUser}/AppData/Total War Warhammer 3/Screenshots"
-        }
+        initialValue={screenshotDirectory}
         onChange={(value) => {
           setScreenshotDirectory(value);
           setScreenshotsDirectoryStore(value);

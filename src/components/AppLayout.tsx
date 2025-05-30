@@ -1,5 +1,4 @@
 "use client";
-
 import { HISTORY, RECORD, SETTINGS } from "@/constants";
 import { useZustandStore } from "@/lib/useZustandStore";
 import type { Page } from "@/types";
@@ -7,10 +6,9 @@ import { Disclosure, DisclosureButton } from "@headlessui/react";
 import {
   Bars3Icon,
   Cog6ToothIcon,
-  PlayIcon,
-  StopIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import RecordingButton from "./RecordingButton";
 
 const classNames = (...classes: string[]) => {
   return classes.filter(Boolean).join(" ");
@@ -23,14 +21,8 @@ export default function AppLayout({
 }>) {
   const page = useZustandStore((state) => state.page);
   const setPage = useZustandStore((state) => state.setPage);
-  const isRecording = useZustandStore((state) => state.isRecording);
-  const setIsRecording = useZustandStore((state) => state.setIsRecording);
 
   const navigation: Page[] = [HISTORY, RECORD];
-
-  const recordingHandler = () => {
-    setIsRecording(!isRecording);
-  };
 
   return (
     <>
@@ -71,19 +63,7 @@ export default function AppLayout({
               </div>
               <div className="hidden md:block">
                 <div className="ml-4 flex items-center md:ml-6">
-                  <button
-                    type="button"
-                    className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
-                    onClick={recordingHandler}
-                  >
-                    <span className="absolute -inset-1.5" />
-                    <span className="sr-only">View notifications</span>
-                    {isRecording ? (
-                      <StopIcon className="size-6 text-red-500" />
-                    ) : (
-                      <PlayIcon stroke="green" className="size-6" />
-                    )}
-                  </button>
+                  <RecordingButton />
                   <button
                     type="button"
                     className={classNames(

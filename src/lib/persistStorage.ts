@@ -2,6 +2,7 @@ export const setScreenshotsDirectoryStore = (directory: string): void => {
   localStorage.setItem("screenshotsDirectory", directory);
 };
 export const setGameDirectoryStore = (directory: string): void => {
+  console.log("Setting game directory in localStorage:", directory);
   localStorage.setItem("gameDirectory", directory);
 };
 

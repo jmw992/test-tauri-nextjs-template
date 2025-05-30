@@ -5,16 +5,18 @@ import { RoundedButton } from "./RoundedButton";
 
 interface FolderInputProps {
   title: string;
-  inputPlaceholder?: string;
+  initialValue?: string;
   onChange: (filePath: string) => void;
 }
 
 export const FolderInput: React.FC<FolderInputProps> = ({
   title,
-  inputPlaceholder,
+  initialValue: inputPlaceholder,
   onChange,
 }) => {
-  const [filePath, setFilePath] = useState("");
+  const [displayFile, setDisplayFile] = useState(
+    inputPlaceholder ?? "total war warhammer 3",
+  );
 
   const onClickAsync = async () => {
     const file = await open({
@@ -23,16 +25,14 @@ export const FolderInput: React.FC<FolderInputProps> = ({
     });
     console.log("Selected file:", file);
     if (typeof file === "string") {
-      setFilePath(file);
-      onChange(filePath);
+      setDisplayFile(file);
+      onChange(file);
     }
   };
 
   const onClick = () => {
     void onClickAsync();
   };
-
-  console.log("jmw filePath", filePath);
 
   return (
     <div
@@ -46,11 +46,12 @@ export const FolderInput: React.FC<FolderInputProps> = ({
       <RoundedButton onClick={onClick} title={title} />
       <Input
         type="text"
-        value={filePath}
-        placeholder={inputPlaceholder ?? "Selected file path will appear here"}
+        value={displayFile}
+        // placeholder={inputPlaceholder ?? "Selected file path will appear here"}
+        // defaultValue={inputPlaceholder ?? "Selected file path will appear here"}
         style={{ width: "100%", minWidth: 0 }}
         onChange={(e) => {
-          setFilePath(e.target.value);
+          setDisplayFile(e.target.value);
           onChange(e.target.value);
         }}
       />
