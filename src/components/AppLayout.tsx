@@ -8,7 +8,8 @@ import {
   Cog6ToothIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import RecordingButton from "./RecordingButton";
+import RecordingButton from "@/components/RecordingButton";
+import { Toaster } from "@/components/ui/sonner";
 
 const classNames = (...classes: string[]) => {
   return classes.filter(Boolean).join(" ");
@@ -110,6 +111,7 @@ export default function AppLayout({
           </div>
         </main>
         <footer />
+        <Toaster position="bottom-left" />
       </div>
     </>
   );

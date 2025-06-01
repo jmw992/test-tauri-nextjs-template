@@ -1,29 +1,44 @@
-import { HOME } from "@/constants";
-import type { Page } from "@/types";
+import { HOME, DEFAULT } from "@/constants";
+import type { Page, SupportedGames } from "@/types";
 import { create } from "zustand";
-import type { ULID } from "ulid";
 
-interface State {
+/** These state items get persisted between app close & open */
+export type PersistedState = {
+  game: SupportedGames;
+  mod: string;
+  gameDirectory: string;
+  screenshotsDirectory: string;
+};
+
+/** Transient state items that get reset between app close & open */
+export type TransientState = {
   page: Page;
   isRecording: boolean;
   recordingStartTime: Date | null;
-  recordingUlid: ULID | null;
-  gameDirectory: string;
-  screenshotsDirectory: string;
-}
+  recordingUlid: string | null;
+};
 
-interface Action {
+/** Full application state */
+type State = PersistedState & TransientState;
+
+type Action = {
   setPage: (page: State["page"]) => void;
   setIsRecording: (isRecording: State["isRecording"]) => void;
   setRecordingStartTime: (startTime: State["recordingStartTime"]) => void;
-  setRecordingUlid: (ulid: ULID | null) => void;
+  setRecordingUlid: (ulid: string | null) => void;
+  setGame: (game: SupportedGames) => void;
   setGameDirectory: (gameDirectory: State["gameDirectory"]) => void;
+  setMod: (mod: State["mod"]) => void;
   setScreenshotsDirectory: (
     gameDirectory: State["screenshotsDirectory"],
   ) => void;
-}
+  setPersistedState: (value: PersistedState) => void;
+  getPersistedState: () => PersistedState;
+};
 
-export const useZustandStore = create<State & Action>((set) => ({
+export type ZustandStateAction = State & Action;
+
+export const useZustandStore = create<ZustandStateAction>((set, get) => ({
   page: HOME,
   setPage: (value: Page) => {
     set({ page: value });
@@ -31,6 +46,14 @@ export const useZustandStore = create<State & Action>((set) => ({
   isRecording: false,
   setIsRecording: (value: boolean) => {
     set({ isRecording: value });
+  },
+  mod: DEFAULT,
+  setMod(value: string) {
+    set({ mod: value });
+  },
+  game: "Total War Warhammer 3",
+  setGame(value: SupportedGames) {
+    set({ game: value });
   },
   gameDirectory: "",
   setGameDirectory: (value: string) => {
@@ -41,8 +64,17 @@ export const useZustandStore = create<State & Action>((set) => ({
     set({ screenshotsDirectory: value });
   },
   recordingStartTime: null,
-  setRecordingStartTime: (startTime: Date | null) =>
-    set({ recordingStartTime: startTime }),
+  setRecordingStartTime: (value: Date | null) =>
+    set({ recordingStartTime: value }),
   recordingUlid: null,
-  setRecordingUlid: (ulid: ULID | null) => set({ recordingUlid: ulid }),
+  setRecordingUlid: (ulid: string | null) => set({ recordingUlid: ulid }),
+  setPersistedState(value) {
+    set(value);
+  },
+  getPersistedState: () => ({
+    game: get().game,
+    mod: get().mod,
+    gameDirectory: get().gameDirectory,
+    screenshotsDirectory: get().screenshotsDirectory,
+  }),
 }));

@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { open } from "@tauri-apps/plugin-dialog";
 import { useState } from "react";
-import { RoundedButton } from "./RoundedButton";
+import { Button } from "@/components/ui/button";
 
 interface FolderInputProps {
   title: string;
@@ -43,12 +43,12 @@ export const FolderInput: React.FC<FolderInputProps> = ({
         alignItems: "center",
       }}
     >
-      <RoundedButton onClick={onClick} title={title} />
+      <Button variant={"secondary"} size="sm" onClick={onClick}>
+        Select
+      </Button>
       <Input
         type="text"
         value={displayFile}
-        // placeholder={inputPlaceholder ?? "Selected file path will appear here"}
-        // defaultValue={inputPlaceholder ?? "Selected file path will appear here"}
         style={{ width: "100%", minWidth: 0 }}
         onChange={(e) => {
           setDisplayFile(e.target.value);

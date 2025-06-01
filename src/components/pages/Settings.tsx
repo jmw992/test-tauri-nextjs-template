@@ -6,38 +6,16 @@ import {
   setScreenshotsDirectoryStore,
 } from "@/lib/persistStorage";
 import { useZustandStore } from "@/lib/useZustandStore";
+import { SettingsForm } from "@/components/SettingsForm";
 
 export default function Settings() {
-  const gameDirectory = useZustandStore((state) => state.gameDirectory);
-  const screenshotDirectory = useZustandStore(
-    (state) => state.screenshotsDirectory,
-  );
-  const setGameDirectory = useZustandStore((state) => state.setGameDirectory);
-  const setScreenshotDirectory = useZustandStore(
-    (state) => state.setScreenshotsDirectory,
-  );
+  const getPersistedState = useZustandStore((state) => state.getPersistedState);
+  const persistedState = getPersistedState();
 
   return (
     <>
-      <p>App Directory for Total War Warhammer 3</p>
-      <FolderInput
-        title={"Select"}
-        initialValue={gameDirectory}
-        onChange={(value: string) => {
-          setGameDirectory(value);
-          setGameDirectoryStore(value);
-        }}
-      />
-
-      <p>App Directory for Screenshots</p>
-      <FolderInput
-        title={"Select"}
-        initialValue={screenshotDirectory}
-        onChange={(value) => {
-          setScreenshotDirectory(value);
-          setScreenshotsDirectoryStore(value);
-        }}
-      />
+      <h1 className="text-center text-xl">Settings</h1>
+      <SettingsForm initialState={persistedState} />
     </>
   );
 }
